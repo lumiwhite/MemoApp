@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, type TextStyle } from 'react-native'
 interface Props {
   children: string
   bang?: boolean
-  style: TextStyle
+  style?: TextStyle
 }
 
 const Hello = (props: Props): JSX.Element => {

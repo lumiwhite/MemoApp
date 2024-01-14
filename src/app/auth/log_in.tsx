@@ -1,14 +1,24 @@
 import {
-  View, Text, TextInput, StyleSheet, TouchableOpacity
+  View, Text, TextInput, StyleSheet, TouchableOpacity, Alert
 } from 'react-native'
 import { useState } from 'react'
 import { Link, router } from 'expo-router'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 import Button from '../../components/Botton'
+import { auth } from '../../config'
 
-const handlePress = (): void => {
-  // 会員登録
-  router.replace('/memo/list')
+const handlePress = (email: string, password: string): void => {
+  // ログイン
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log(userCredential.user.uid)
+      router.replace('/memo/list')
+    })
+    .catch((error: { code: string, message: string }): void => {
+      console.log(error.code, error.message)
+      Alert.alert(error.message)
+    })
 }
 
 const LogIn = (): JSX.Element => {
@@ -36,10 +46,10 @@ const LogIn = (): JSX.Element => {
           placeholder='password'
           textContentType='password'
         />
-        <Button label='Submit' onPress={handlePress} />
+        <Button label='Submit' onPress={() => { handlePress(email, password) }} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not registered?</Text>
-          <Link href='/auth/sign_up' asChild>
+          <Link href='/auth/sign_up' asChild replace>
             <TouchableOpacity>
             <Text style={styles.footerLink}>Sign up here!</Text>
             </TouchableOpacity>

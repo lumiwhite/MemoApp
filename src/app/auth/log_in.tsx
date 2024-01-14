@@ -8,7 +8,7 @@ import Button from '../../components/Botton'
 
 const handlePress = (): void => {
   // 会員登録
-  router.push('/memo/list')
+  router.replace('/memo/list')
 }
 
 const LogIn = (): JSX.Element => {
